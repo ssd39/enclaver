@@ -101,7 +101,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-region: us-east-1
-          role-to-assume: arn:aws:iam::191157683436:user/GithubActionsEnclaver
+          role-to-assume: arn:aws:iam::191157683436:role/enclaver-ecr
 
       - name: Configure AWS Docker Auth
         id: login-ecr
