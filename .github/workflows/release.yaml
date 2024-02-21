@@ -120,7 +120,7 @@ jobs:
             type=semver,pattern=v{{major}}
             type=semver,pattern=v{{major}}.{{minor}}
             type=semver,pattern=v{{major}}.{{minor}}.{{patch}}
-            type=raw,value=latest,enable=${{ github.ref_type == 'tag' }}
+            type=raw,value=latest
 
       - name: Build nitro-cli Image
         uses: docker/build-push-action@v3
@@ -144,7 +144,7 @@ jobs:
             type=semver,pattern=v{{major}}
             type=semver,pattern=v{{major}}.{{minor}}
             type=semver,pattern=v{{major}}.{{minor}}.{{patch}}
-            type=raw,value=latest,enable=${{ github.ref_type == 'tag' }}
+            type=raw,value=latest
 
       - name: Build Odyn Image
         uses: docker/build-push-action@v3
@@ -168,7 +168,7 @@ jobs:
             type=semver,pattern=v{{major}}
             type=semver,pattern=v{{major}}.{{minor}}
             type=semver,pattern=v{{major}}.{{minor}}.{{patch}}
-            type=raw,value=latest,enable=${{ github.ref_type == 'tag' }}
+            type=raw,value=latest
 
       - name: Build Runtime Base Image
         uses: docker/build-push-action@v3
