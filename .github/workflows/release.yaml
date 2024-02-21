@@ -109,6 +109,31 @@ jobs:
         with:
           registry-type: public
 
+      - name: Generate nitro-cli Image Metadata
+        id: nitro-cli-metadata
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            public.ecr.aws/n4x4t0b0/nitro-cli
+          tags: |
+            type=sha,
+            type=semver,pattern=v{{major}}
+            type=semver,pattern=v{{major}}.{{minor}}
+            type=semver,pattern=v{{major}}.{{minor}}.{{patch}}
+            type=raw,value=latest,enable=${{ github.ref_type == 'tag' }}
+
+      - name: Build nitro-cli Image
+        uses: docker/build-push-action@v3
+        with:
+          context: "{{defaultContext}}:nitro-cli-image"
+          build-contexts: artifacts=.
+          file: Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ steps.nitro-cli-metadata.outputs.tags }}
+            latest
+
       - name: Generate Odyn Image Metadata
         id: odyn-metadata
         uses: docker/metadata-action@v4
@@ -130,7 +155,9 @@ jobs:
           file: odyn-release.dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ steps.odyn-metadata.outputs.tags }}
+          tags: |
+            ${{ steps.odyn-metadata.outputs.tags }}
+            latest
 
       - name: Generate Runtime Base Image Metadata
         id: wrapper-base-metadata
@@ -153,7 +180,9 @@ jobs:
           file: runtimebase.dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ steps.wrapper-base-metadata.outputs.tags }}
+          tags: |
+            ${{ steps.wrapper-base-metadata.outputs.tags }}
+            latest
 
   upload-release-artifact:
     needs: build-release-binaries
