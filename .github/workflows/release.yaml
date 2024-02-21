@@ -132,7 +132,6 @@ jobs:
           push: true
           tags: |
             ${{ steps.nitro-cli-metadata.outputs.tags }}
-            latest
 
       - name: Generate Odyn Image Metadata
         id: odyn-metadata
@@ -157,7 +156,6 @@ jobs:
           push: true
           tags: |
             ${{ steps.odyn-metadata.outputs.tags }}
-            latest
 
       - name: Generate Runtime Base Image Metadata
         id: wrapper-base-metadata
@@ -182,7 +180,6 @@ jobs:
           push: true
           tags: |
             ${{ steps.wrapper-base-metadata.outputs.tags }}
-            latest
 
   upload-release-artifact:
     needs: build-release-binaries
