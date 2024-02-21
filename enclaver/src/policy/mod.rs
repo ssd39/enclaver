@@ -38,8 +38,7 @@ impl EgressPolicy {
     pub fn is_host_allowed(&self, mut host: &str) -> bool {
         log::trace!("is_host_allowed({host})");
 
-        host = host.replace("\"", "").to_owned().as_str();
-        host = host.replace("'", "").to_owned().as_str();
+        let mut host = host.replace("\"", "").replace("'", "").as_ref();
         // An IPv6 address gets passed with the brackets, e.g. [::1],
         // and need to be stripped before converting to an IpAddr
         host = host.strip_prefix('[').unwrap_or(host);
