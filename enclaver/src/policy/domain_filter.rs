@@ -9,8 +9,6 @@ impl PatternPart {
         match part {
             "**" => Self::Superwild,
             "*" => Self::Wild,
-            "\"*" => Self::Wild,
-            "\'*" => Self::Wild,
             _ => Self::Named(part.to_ascii_lowercase()),
         }
     }
@@ -171,11 +169,13 @@ mod tests {
         df.add("*.net");
         df.add("foo.*.com");
         df.add("**.amazonaws.com");
+    
 
         assert!(df.matches("example.com"));
         assert!(!df.matches("cnn.com"));
         assert!(df.matches("example.net"));
         assert!(!df.matches("foo.bar.org"));
+        assert!(df.matches("*.amazonaws.com"));
         assert!(df.matches("kms.amazonaws.com"));
         assert!(df.matches("kms.us-east-1.amazonaws.com"));
     }

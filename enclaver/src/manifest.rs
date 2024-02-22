@@ -121,6 +121,14 @@ name: "test"
 target: "target-image:latest"
 sources:
   app: "app-image:latest"
+egress:
+  allow:
+    - kms.*.amazonaws.com
+    - s3-*.amazonaws.com
+    - |
+        *.s3.amazonaws.com
+    - s3.amazonaws.com
+    - 169.254.169.254
 #r"#;
 
         let manifest = parse_manifest(raw_manifest).unwrap();
