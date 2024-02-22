@@ -18,7 +18,7 @@ struct Pattern(Vec<PatternPart>);
 
 impl Pattern {
     fn new(pat: &str) -> Self {
-        let parts = pat.split('.').map(PatternPart::new).rev().collect();
+        let parts = pat.replace("\"", "").replace("'", "").split('.').map(PatternPart::new).rev().collect();
 
         Self(parts)
     }
