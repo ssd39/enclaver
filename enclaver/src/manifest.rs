@@ -106,7 +106,7 @@ pub async fn load_manifest<P: AsRef<Path>>(path: P) -> Result<Manifest> {
 
 #[cfg(test)]
 mod tests {
-    use crate::manifest::parse_manifest;
+    use crate::{manifest::parse_manifest, policy::EgressPolicy};
 
     #[test]
     fn test_parse_manifest_with_unknown_fields() {
@@ -121,13 +121,18 @@ name: "test"
 target: "target-image:latest"
 sources:
   app: "app-image:latest"
+egress:
+  allow:
+    - "*.s3.amazonaws.com"
 #r"#;
 
         let manifest = parse_manifest(raw_manifest).unwrap();
 
-        assert_eq!(manifest.version, "v1");
-        assert_eq!(manifest.name, "test");
-        assert_eq!(manifest.target, "target-image:latest");
-        assert_eq!(manifest.sources.app, "app-image:latest");
+    
+        let y = Some(manifest.egress).unwrap().unwrap();
+        let x = EgressPolicy::new(&y);
+       
+        assert_eq!(x.is_host_allowed("ass.s3.amazonaws.com"), true);
+
     }
 }

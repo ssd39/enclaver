@@ -9,8 +9,6 @@ impl PatternPart {
         match part {
             "**" => Self::Superwild,
             "*" => Self::Wild,
-            "\"*" => Self::Wild,
-            "\'*" => Self::Wild,
             _ => Self::Named(part.to_ascii_lowercase()),
         }
     }
